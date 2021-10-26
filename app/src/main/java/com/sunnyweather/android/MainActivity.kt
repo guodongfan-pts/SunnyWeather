@@ -1,10 +1,9 @@
 package com.sunnyweather.android
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.sunnyweather.android.databinding.ActivityMainBinding
-import com.sunnyweather.android.logic.network.PlaceService
-import com.sunnyweather.android.logic.network.ServiceCreator
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -14,8 +13,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.getAppData.setOnClickListener {
-            val server = ServiceCreator.create(PlaceService::class.java)
+        if (SunnyWeatherApplication.TOKEN.isEmpty()) {
+            Toast.makeText(this, "请在SunnyWeatherApplication中填入你申请到的令牌值", Toast.LENGTH_LONG).show()
+            finish()
         }
     }
 }

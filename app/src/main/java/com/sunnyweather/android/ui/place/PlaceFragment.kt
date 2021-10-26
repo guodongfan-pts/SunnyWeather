@@ -9,11 +9,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sunnyweather.android.MainActivity
-import com.sunnyweather.android.R
 import com.sunnyweather.android.databinding.FragmentPlaceBinding
 import com.sunnyweather.android.ui.weather.WeatherActivity
 
@@ -65,14 +63,14 @@ class PlaceFragment : Fragment() {
                 adapter.notifyDataSetChanged()
             }
         }
-        viewModel.placeLiveData.observe(this, Observer { result ->
+        viewModel.placeLiveData.observe(viewLifecycleOwner, { result ->
             val places = result.getOrNull()
             if (places != null) {
                 binding.recyclerView.visibility = View.VISIBLE
                 binding.bgImageView.visibility = View.GONE
                 viewModel.placeList.clear()
                 viewModel.placeList.addAll(places)
-       g         adapter.notifyDataSetChanged()
+                adapter.notifyDataSetChanged()
             } else {
                 Toast.makeText(activity, "未能查询到任何地点", Toast.LENGTH_SHORT).show()
                 result.exceptionOrNull()?.printStackTrace()
